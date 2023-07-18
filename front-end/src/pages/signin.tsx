@@ -1,12 +1,19 @@
+import { SigninForm } from "@/components";
+import { withoutAuth } from "@/utils";
+import { Paper } from "@mantine/core";
 import Head from "next/head";
 
-export default function Signin() {
+const Signin = () => {
   return (
     <>
       <Head>
-        <title>Signin | CDTR</title>
+        <title>Se connecter | CDTR</title>
       </Head>
-      <p>Signin</p>
+      <Paper shadow="xs" p="md" sx={{ marginTop: "2rem" }}>
+        <SigninForm />
+      </Paper>
     </>
   );
-}
+};
+
+export default withoutAuth(Signin);

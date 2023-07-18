@@ -1,4 +1,5 @@
-import { Topbar } from "@/components/Topbar";
+import { Topbar } from "@/components";
+import { AuthProvider, SnackbarProvider } from "@/contexts";
 import { routes } from "@/routes";
 import { Container, MantineProvider } from "@mantine/core";
 import type { AppProps } from "next/app";
@@ -27,10 +28,14 @@ export default function App({ Component, pageProps }: AppProps) {
         primaryColor: "ocean-blue",
       }}
     >
-      <Topbar routes={routes} />
-      <Container>
-        <Component {...pageProps} />
-      </Container>
+      <SnackbarProvider>
+        <AuthProvider>
+          <Topbar routes={routes} />
+          <Container>
+            <Component {...pageProps} />
+          </Container>
+        </AuthProvider>
+      </SnackbarProvider>
     </MantineProvider>
   );
 }

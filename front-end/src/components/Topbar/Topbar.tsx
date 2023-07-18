@@ -1,8 +1,10 @@
+import { useAuth } from "@/hooks";
 import { Burger, Container, Group, Header } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import Link from "next/link";
 import { MenuItem } from "./MenuItem";
 import { useTopbarStyles } from "./Topbar.styles";
+import { getFilteredRoutes } from "./getFilteredRoutes";
 import { Route } from "./types";
 
 interface TopbarProps {
@@ -12,6 +14,8 @@ interface TopbarProps {
 export function Topbar({ routes }: TopbarProps) {
   const [opened, { toggle }] = useDisclosure(false);
   const { classes } = useTopbarStyles();
+  const { user } = useAuth();
+  const filteredRoutes = getFilteredRoutes(routes, user);
 
   return (
     <Header height={56} className={classes.header}>
@@ -21,7 +25,7 @@ export function Topbar({ routes }: TopbarProps) {
             <h1 className={classes.title}>Candidator</h1>
           </Link>
           <Group spacing={5} className={classes.links}>
-            {routes.map((route) => (
+            {filteredRoutes.map((route) => (
               <MenuItem key={route.label} {...route} />
             ))}
           </Group>
