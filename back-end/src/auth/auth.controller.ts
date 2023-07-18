@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { UserMapper } from '../user/mapper/user.mapper';
 import { UserDto } from '../user/types/user.dto';
@@ -31,5 +31,13 @@ export class AuthController {
   async register(@Body() createUserDto: SignUpInput): Promise<UserDto> {
     const user = await this.authService.signUp(createUserDto);
     return this.userMapper.convert(user);
+  }
+
+  @Get('logout')
+  async logout(@Res({ passthrough: true }) response: Response): Promise<void> {
+    response.clearCookie('jwt', {
+      httpOnly: true,
+      domain: process.env.FRONTEND_DOMAIN,
+    });
   }
 }

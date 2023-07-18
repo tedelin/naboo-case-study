@@ -21,6 +21,10 @@ export function signup(
     .then((response: AxiosResponse) => response.data as {});
 }
 
+export function logout() {
+  return axiosInstance.get("/auth/logout");
+}
+
 export function getUser() {
   return axiosInstance.get("/me");
 }

@@ -1,25 +1,27 @@
 import { useSnackbar } from "@/hooks";
-import { getUser, signin, signup } from "@/services/authentication";
+import { getUser, logout, signin, signup } from "@/services/authentication";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 
 interface AuthContextType {
   user: {} | null;
   isLoading: boolean;
-  handleSignin: (email: string, password: string) => void;
+  handleSignin: (email: string, password: string) => Promise<void>;
   handleSignup: (
     email: string,
     password: string,
     firstName: string,
     lastName: string
-  ) => void;
+  ) => Promise<void>;
+  handleLogout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType>({
   user: null,
   isLoading: false,
-  handleSignin: () => {},
-  handleSignup: () => {},
+  handleSignin: () => Promise.resolve(),
+  handleSignup: () => Promise.resolve(),
+  handleLogout: () => Promise.resolve(),
 });
 
 interface AuthProviderProps {
@@ -45,7 +47,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     try {
       const token = await signin(email, password);
-
       localStorage.setItem("token", token);
       getUser().then(setUser);
       router.push("/profile");
@@ -74,9 +75,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const handleLogout = async () => {
+    setIsLoading(true);
+
+    try {
+      await logout();
+      localStorage.removeItem("token");
+      setUser(null);
+      router.push("/");
+    } catch (err) {
+      snackbar.error(`${err}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <AuthContext.Provider
-      value={{ user, isLoading, handleSignin, handleSignup }}
+      value={{ user, isLoading, handleSignin, handleSignup, handleLogout }}
     >
       {children}
     </AuthContext.Provider>
