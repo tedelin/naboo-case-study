@@ -1,2 +1,2 @@
-export * from "./withAuth";
-export * from "./withoutAuth";
+export * from "./api.types";
+export * from "./mantine.theme";

@@ -1,5 +1,5 @@
+import { withAuth } from "@/hocs";
 import { useAuth } from "@/hooks";
-import { withAuth } from "@/utils";
 import Head from "next/head";
 
 const Profile = () => {
@@ -11,9 +11,9 @@ const Profile = () => {
       </Head>
       <p>Profile</p>
       <div>
-        {/* <p>{user?.email}</p>
+        <p>{user?.email}</p>
         <p>{user?.firstName}</p>
-        <p>{user?.lastName}</p> */}
+        <p>{user?.lastName}</p>
       </div>
     </>
   );

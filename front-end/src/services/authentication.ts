@@ -1,30 +1,25 @@
+import { SignIn, SignInInput, User } from "@/utils";
 import { AxiosResponse } from "axios";
 import { axiosInstance } from "./axios";
 
-export function signin(email: string, password: string): Promise<string> {
+export function signin(input: SignInInput): Promise<string> {
   return axiosInstance
-    .post("/auth/signin", { email, password })
-    .then((response: AxiosResponse) => {
-      const { acess_token } = response.data;
-      return acess_token as string;
-    });
+    .post("/auth/signin", input)
+    .then((response: AxiosResponse<SignIn>) => response.data.access_token);
 }
 
-export function signup(
-  email: string,
-  password: string,
-  firstName: string,
-  lastName: string
-) {
+export function signup(input: SignInInput): Promise<User> {
   return axiosInstance
-    .post("/auth/signup", { email, password, firstName, lastName })
-    .then((response: AxiosResponse) => response.data as {});
+    .post("/auth/signup", input)
+    .then((response: AxiosResponse<User>) => response.data);
 }
 
 export function logout() {
   return axiosInstance.get("/auth/logout");
 }
 
-export function getUser() {
-  return axiosInstance.get("/me");
+export function getUser(): Promise<User> {
+  return axiosInstance
+    .get("/me")
+    .then((response: AxiosResponse<User>) => response.data);
 }

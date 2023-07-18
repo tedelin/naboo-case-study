@@ -1,27 +1,25 @@
 import { useAuth } from "@/hooks";
+import { SignInInput } from "@/utils";
 import { Box, Button, Group, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { emailValidation, passwordValidation } from "./validationRules";
 
 export default function SigninForm() {
   const { handleSignin, isLoading } = useAuth();
-  const form = useForm({
+  const form = useForm<SignInInput>({
     initialValues: {
       email: "",
       password: "",
     },
-
     validate: {
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      email: emailValidation,
+      password: passwordValidation,
     },
   });
 
   return (
     <Box maw={450} mx="auto">
-      <form
-        onSubmit={form.onSubmit((values) =>
-          handleSignin(values["email"], values["password"])
-        )}
-      >
+      <form onSubmit={form.onSubmit((values) => handleSignin(values))}>
         <TextInput
           withAsterisk
           label="Email"

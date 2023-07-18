@@ -1,5 +1,5 @@
 import { SignupForm } from "@/components";
-import { withoutAuth } from "@/utils";
+import { withoutAuth } from "@/hocs";
 import { Paper } from "@mantine/core";
 import Head from "next/head";
 

@@ -1,18 +1,14 @@
 import { useSnackbar } from "@/hooks";
 import { getUser, logout, signin, signup } from "@/services/authentication";
+import { SignInInput, SignUpInput, User } from "@/utils";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 
 interface AuthContextType {
-  user: {} | null;
+  user: User | null;
   isLoading: boolean;
-  handleSignin: (email: string, password: string) => Promise<void>;
-  handleSignup: (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string
-  ) => Promise<void>;
+  handleSignin: (input: SignInInput) => Promise<void>;
+  handleSignup: (input: SignUpInput) => Promise<void>;
   handleLogout: () => Promise<void>;
 }
 
@@ -31,7 +27,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const snackbar = useSnackbar();
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState<{} | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -42,11 +38,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   }, [user]);
 
-  const handleSignin = async (email: string, password: string) => {
+  const handleSignin = async (input: SignInInput) => {
     setIsLoading(true);
 
     try {
-      const token = await signin(email, password);
+      const token = await signin(input);
       localStorage.setItem("token", token);
       getUser().then(setUser);
       router.push("/profile");
@@ -57,16 +53,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
-  const handleSignup = async (
-    email: string,
-    password: string,
-    firstName: string,
-    lastName: string
-  ) => {
+  const handleSignup = async (input: SignUpInput) => {
     setIsLoading(true);
 
     try {
-      await signup(email, password, firstName, lastName);
+      await signup(input);
       router.push("/signin");
     } catch (err) {
       snackbar.error(`${err}`);
