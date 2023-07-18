@@ -1,7 +1,7 @@
-import { Body, Controller, Post, Res, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { Response } from 'express';
-import { UserMapper } from 'src/user/mapper/user.mapper';
-import { UserDto } from 'src/user/types/user.dto';
+import { UserMapper } from '../user/mapper/user.mapper';
+import { UserDto } from '../user/types/user.dto';
 import { AuthService } from './auth.service';
 import { SignInDto, SignInInput, SignUpInput } from './types';
 
@@ -14,7 +14,7 @@ export class AuthController {
 
   @Post('signin')
   async login(
-    @Body(ValidationPipe) loginUserDto: SignInInput,
+    @Body() loginUserDto: SignInInput,
     @Res({ passthrough: true }) response: Response,
   ): Promise<SignInDto> {
     const data = await this.authService.signIn(loginUserDto);
@@ -28,9 +28,7 @@ export class AuthController {
   }
 
   @Post('signup')
-  async register(
-    @Body(ValidationPipe) createUserDto: SignUpInput,
-  ): Promise<UserDto> {
+  async register(@Body() createUserDto: SignUpInput): Promise<UserDto> {
     const user = await this.authService.signUp(createUserDto);
     return this.userMapper.convert(user);
   }
