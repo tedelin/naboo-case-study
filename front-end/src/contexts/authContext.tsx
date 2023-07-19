@@ -1,5 +1,5 @@
 import { useSnackbar } from "@/hooks";
-import { getUser, logout, signin, signup } from "@/services/authentication";
+import { getUser, logout, signin, signup } from "@/services";
 import { SignInInput, SignUpInput, User } from "@/utils";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
@@ -26,7 +26,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const snackbar = useSnackbar();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
@@ -34,48 +34,49 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     const token = localStorage.getItem("token");
 
     if (!user && token) {
-      getUser().then(setUser);
+      getUser()
+        .then(setUser)
+        .finally(() => setIsLoading(false));
+    } else {
+      setIsLoading(false);
     }
   }, [user]);
 
   const handleSignin = async (input: SignInInput) => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       const token = await signin(input);
       localStorage.setItem("token", token);
       getUser().then(setUser);
       router.push("/profile");
     } catch (err) {
-      snackbar.error(`${err}`);
+      snackbar.error("Une erreur est survenue");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleSignup = async (input: SignUpInput) => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       await signup(input);
       router.push("/signin");
     } catch (err) {
-      snackbar.error(`${err}`);
+      snackbar.error("Une erreur est survenue");
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleLogout = async () => {
-    setIsLoading(true);
-
     try {
+      setIsLoading(true);
       await logout();
       localStorage.removeItem("token");
       setUser(null);
       router.push("/");
     } catch (err) {
-      snackbar.error(`${err}`);
+      snackbar.error("Une erreur est survenue");
     } finally {
       setIsLoading(false);
     }

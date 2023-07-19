@@ -1,4 +1,4 @@
-//! TODO: to improve with tRPC, NX or others to share types between front-end and back-end
+//! TODO: to improve with tRPC, monorepo or others to share types between front-end and back-end
 
 export interface SignInInput {
   email: string;
@@ -19,4 +19,19 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+}
+
+export interface City {
+  nom: string;
+  code: string;
+}
+
+export interface ActivityInput {
+  name: string;
+  city: {
+    name: string;
+    postalCode: string;
+  };
+  description: string;
+  price: number;
 }

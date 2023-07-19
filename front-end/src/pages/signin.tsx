@@ -9,7 +9,8 @@ const Signin = () => {
       <Head>
         <title>Se connecter | CDTR</title>
       </Head>
-      <Paper shadow="xs" p="md" sx={{ marginTop: "2rem" }}>
+      <h2>Se connecter</h2>
+      <Paper shadow="xs" p="md">
         <SigninForm />
       </Paper>
     </>

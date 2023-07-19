@@ -1,7 +1,8 @@
 import { useAuth } from "@/hooks";
 import { SignUpInput } from "@/utils";
-import { Box, Button, Group, TextInput } from "@mantine/core";
+import { Box, Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import Link from "next/link";
 import {
   emailValidation,
   firstNameValidation,
@@ -54,11 +55,17 @@ export default function SignupForm() {
           placeholder="Doe"
           {...form.getInputProps("lastName")}
         />
-        <Group position="right" mt="md">
+        <Box mt="md" sx={{ display: "flex", justifyContent: "space-between" }}>
+          <Link href="/signin">
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <span>Vous avez déjà un compte ?</span>
+              <span>Se connecter</span>
+            </Box>
+          </Link>
           <Button loading={isLoading} type="submit">
             Valider
           </Button>
-        </Group>
+        </Box>
       </form>
     </Box>
   );

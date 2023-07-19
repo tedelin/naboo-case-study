@@ -9,7 +9,8 @@ const Signup = () => {
       <Head>
         <title>S&apos;inscrire | CDTR</title>
       </Head>
-      <Paper shadow="xs" p="md" sx={{ marginTop: "2rem" }}>
+      <h2>S&apos;inscrire</h2>
+      <Paper shadow="xs" p="md">
         <SignupForm />
       </Paper>
     </>
