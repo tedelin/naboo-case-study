@@ -1,3 +1,4 @@
+import { PageTitle } from "@/components";
 import Head from "next/head";
 
 export default function Explorer() {
@@ -6,7 +7,7 @@ export default function Explorer() {
       <Head>
         <title>Explorer | CDTR</title>
       </Head>
-      <p>Explorer</p>
+      <PageTitle title="Explorer" />
     </>
   );
 }

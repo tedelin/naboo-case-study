@@ -13,7 +13,7 @@ import { ActivityService } from './activity.service';
 import { ActivityMapper } from './mapper/activity.mapper';
 import { ActivityDto, CreateActivityInput } from './types';
 
-@Controller('activity')
+@Controller('activities')
 export class ActivityController {
   constructor(
     private readonly activityService: ActivityService,
@@ -33,7 +33,7 @@ export class ActivityController {
   }
 
   @UseGuards(AuthGuard)
-  @Post('create')
+  @Post()
   async createActivity(
     @Request() req: IRequest,
     @Body() createActivityDto: CreateActivityInput,

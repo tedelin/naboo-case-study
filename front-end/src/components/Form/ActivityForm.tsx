@@ -1,8 +1,9 @@
 import { useDebounced, useSnackbar } from "@/hooks";
-import { searchCity } from "@/services";
+import { createActivity, searchCity } from "@/services";
 import { ActivityInput } from "@/utils";
 import { Box, Button, Group, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import {
   cityValidation,
@@ -10,13 +11,6 @@ import {
   nameValidation,
   priceValidation,
 } from "./validationRules";
-
-interface ActivityFormFields {
-  name: string;
-  city: string;
-  description: string;
-  price: number;
-}
 
 type SelectData = {
   value: string;
@@ -26,10 +20,12 @@ type SelectData = {
 export default function ActivityForm() {
   const snackbar = useSnackbar();
   const [searchValue, setSearchValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const debouncedSearch = useDebounced(searchValue, 300);
   const [displayedCities, setDisplayedCities] = useState<SelectData[]>([]);
+  const router = useRouter();
 
-  const form = useForm<ActivityFormFields>({
+  const form = useForm<ActivityInput>({
     initialValues: {
       name: "",
       description: "",
@@ -45,34 +41,26 @@ export default function ActivityForm() {
   });
 
   useEffect(() => {
-    if (debouncedSearch) {
+    if (debouncedSearch && debouncedSearch !== searchValue) {
       searchCity(debouncedSearch)
         .then((data) => {
-          setDisplayedCities(
-            data.map((d) => ({ value: d.code, label: d.nom }))
-          );
+          setDisplayedCities(data.map((d) => ({ value: d.nom, label: d.nom })));
         })
         .catch((err) => {
           snackbar.error(err?.message || "Une erreur est survenue");
         });
     }
-  }, [debouncedSearch, snackbar]);
+  }, [debouncedSearch, searchValue, snackbar]);
 
-  const handleSubmit = (values: ActivityFormFields) => {
-    const targetCity = displayedCities.find((c) => c.value === values.city);
-
-    if (targetCity) {
-      const input: ActivityInput = {
-        name: values.name,
-        description: values.description,
-        city: {
-          name: targetCity.label,
-          postalCode: targetCity.value,
-        },
-        price: values.price,
-      };
-
-      console.log(input);
+  const handleSubmit = async (values: ActivityInput) => {
+    try {
+      setIsLoading(true);
+      await createActivity({ ...values, price: Number(values.price) });
+      router.push("/discover");
+    } catch (err) {
+      snackbar.error("Une erreur est survenue");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -109,7 +97,9 @@ export default function ActivityForm() {
           {...form.getInputProps("price")}
         />
         <Group position="right" mt="md">
-          <Button type="submit">Valider</Button>
+          <Button loading={isLoading} type="submit">
+            Valider
+          </Button>
         </Group>
       </form>
     </Box>

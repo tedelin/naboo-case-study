@@ -9,17 +9,17 @@ export const routes: Route[] = [
     icon: IconUserCircle,
     route: [
       {
-        label: "Se connecter",
+        label: "Connection",
         link: "/signin",
         requiredAuth: false,
       },
       {
-        label: "S'inscrire",
+        label: "Inscription",
         link: "/signup",
         requiredAuth: false,
       },
-      { label: "Profile", link: "/profile", requiredAuth: true },
-      { label: "Se déconnecter", link: "/logout", requiredAuth: true },
+      { label: "Profil", link: "/profil", requiredAuth: true },
+      { label: "Déconnection", link: "/logout", requiredAuth: true },
     ],
   },
 ];

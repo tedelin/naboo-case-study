@@ -21,17 +21,18 @@ export interface User {
   email: string;
 }
 
-export interface City {
-  nom: string;
-  code: string;
-}
-
 export interface ActivityInput {
   name: string;
-  city: {
-    name: string;
-    postalCode: string;
-  };
+  city: string;
   description: string;
   price: number;
+}
+
+export interface Activity {
+  id: string;
+  name: string;
+  city: string;
+  description: string;
+  price: number;
+  owner: Pick<User, "firstName" | "lastName">;
 }

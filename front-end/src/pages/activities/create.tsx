@@ -1,3 +1,4 @@
+import { PageTitle } from "@/components";
 import ActivityForm from "@/components/Form/ActivityForm";
 import { withAuth } from "@/hocs";
 import { Paper } from "@mantine/core";
@@ -9,7 +10,7 @@ const CreateActivity = () => {
       <Head>
         <title>Ajouter une activité | CDTR</title>
       </Head>
-      <h2>Ajouter une activité</h2>
+      <PageTitle title="Ajouter une activité" prevPath="/discover" />
       <Paper shadow="xs" p="md">
         <ActivityForm />
       </Paper>
