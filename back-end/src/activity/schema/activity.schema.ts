@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 import { User } from '../../user/schema/user.schema';
-import { City } from './city.schema';
 
 @Schema({ timestamps: true })
 export class Activity extends Document {
@@ -9,7 +8,7 @@ export class Activity extends Document {
   name: string;
 
   @Prop({ required: true })
-  city: City;
+  city: string;
 
   @Prop({ required: true })
   description: string;
