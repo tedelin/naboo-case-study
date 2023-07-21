@@ -50,8 +50,8 @@ yarn dev
 ## Todo
 
 - [ ] Home page with 3 activities
-- [ ] Explorer, list activity city
-- [ ] Explorer[city], show activities
+- [x] Explorer, list activity city
+- [x] Explorer[city], show activities
 - [ ] Explorer[city], filter activities
 - [ ] Profil page
 - [ ] Add seeds

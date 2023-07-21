@@ -19,3 +19,15 @@ export function createActivity(input: ActivityInput): Promise<Activity> {
     .post("/activities", input)
     .then((response: AxiosResponse<Activity>) => response.data);
 }
+
+export function getCities(): Promise<string[]> {
+  return axiosInstance
+    .get("/activities/listCities")
+    .then((response: AxiosResponse<string[]>) => response.data);
+}
+
+export function getActivitiesByCity(city: string): Promise<Activity[]> {
+  return axiosInstance
+    .get(`/activities/cities/${city}`)
+    .then((response: AxiosResponse<Activity[]>) => response.data);
+}

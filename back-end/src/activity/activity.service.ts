@@ -31,4 +31,12 @@ export class ActivityService {
     });
     return activity.populate('owner');
   }
+
+  async findCities(): Promise<string[]> {
+    return this.activityModel.distinct('city').exec();
+  }
+
+  async findByCity(city: string): Promise<Activity[]> {
+    return this.activityModel.find({ city }).populate('owner').exec();
+  }
 }

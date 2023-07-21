@@ -26,6 +26,18 @@ export class ActivityController {
     return activities.map((activity) => this.activityMapper.convert(activity));
   }
 
+  @Get('/listCities')
+  async getCities(): Promise<string[]> {
+    const cities = await this.activityService.findCities();
+    return cities;
+  }
+
+  @Get('/cities/:city')
+  async getByCity(@Param('city') city: string): Promise<ActivityDto[]> {
+    const activities = await this.activityService.findByCity(city);
+    return activities.map((activity) => this.activityMapper.convert(activity));
+  }
+
   @Get(':id')
   async getActivity(@Param('id') id: string): Promise<ActivityDto> {
     const activity = await this.activityService.findOne(id);

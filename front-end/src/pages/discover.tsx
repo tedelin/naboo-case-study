@@ -27,7 +27,7 @@ export default function Discover({ activities }: DiscoverProps) {
       <Head>
         <title>Discover | CDTR</title>
       </Head>
-      <Group position="apart" mt="md" mb="xs">
+      <Group position="apart">
         <PageTitle title="Découvrez des activités" />
         {user && (
           <Link href="/activities/create">
