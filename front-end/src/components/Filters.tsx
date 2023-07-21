@@ -1,7 +1,20 @@
 import { Flex, NumberInput, TextInput } from "@mantine/core";
 import { IconCurrencyEuro, IconWalk } from "@tabler/icons-react";
+import { Dispatch, SetStateAction } from "react";
 
-export function Filters() {
+interface FiltersProps {
+  activity: string | undefined;
+  price: number | undefined;
+  setSearchActivity: Dispatch<SetStateAction<string | undefined>>;
+  setSearchPrice: Dispatch<SetStateAction<number | undefined>>;
+}
+
+export function Filters({
+  activity,
+  price,
+  setSearchActivity,
+  setSearchPrice,
+}: FiltersProps) {
   return (
     <Flex
       gap="md"
@@ -13,8 +26,19 @@ export function Filters() {
         padding: tm.spacing.md,
       })}
     >
-      <TextInput icon={<IconWalk />} placeholder="Activité" />
-      <NumberInput icon={<IconCurrencyEuro />} placeholder="< Prix" />
+      <TextInput
+        icon={<IconWalk />}
+        placeholder="Activité"
+        onChange={(e) => setSearchActivity(e.target.value || undefined)}
+        value={activity}
+      />
+      <NumberInput
+        icon={<IconCurrencyEuro />}
+        placeholder="Prix"
+        type="number"
+        onChange={(e) => setSearchPrice(Number(e) || undefined)}
+        value={price}
+      />
     </Flex>
   );
 }

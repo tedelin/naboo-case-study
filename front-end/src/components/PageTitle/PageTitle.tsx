@@ -4,20 +4,26 @@ import Link from "next/link";
 
 interface PageTitleProps {
   title: string;
-  prevPath?: string;
+  prevPath?: string | (() => void);
 }
 
 export function PageTitle({ title, prevPath }: PageTitleProps) {
-  return prevPath ? (
+  if (!prevPath) return <h2>{title}</h2>;
+
+  return (
     <Group mt="md" mb="xs">
-      <Link href={prevPath}>
-        <ActionIcon>
+      {typeof prevPath === "string" ? (
+        <Link href={prevPath}>
+          <ActionIcon>
+            <IconArrowLeft size="1.125rem" />
+          </ActionIcon>
+        </Link>
+      ) : (
+        <ActionIcon onClick={prevPath}>
           <IconArrowLeft size="1.125rem" />
         </ActionIcon>
-      </Link>
+      )}
       <h2>{title}</h2>
     </Group>
-  ) : (
-    <h2>{title}</h2>
   );
 }

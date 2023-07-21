@@ -26,8 +26,11 @@ export function getCities(): Promise<string[]> {
     .then((response: AxiosResponse<string[]>) => response.data);
 }
 
-export function getActivitiesByCity(city: string): Promise<Activity[]> {
+export function getActivitiesByCity(
+  city: string,
+  searchParams?: string
+): Promise<Activity[]> {
   return axiosInstance
-    .get(`/activities/cities/${city}`)
+    .get(`/activities/cities/${city}${searchParams ? `?${searchParams}` : ""}`)
     .then((response: AxiosResponse<Activity[]>) => response.data);
 }

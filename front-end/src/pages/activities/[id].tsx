@@ -3,6 +3,7 @@ import { getActivity } from "@/services";
 import { Badge, Flex, Grid, Group, Image, Text } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 interface ActivityDetailsProps {
   activity: Awaited<ReturnType<typeof getActivity>>;
@@ -17,16 +18,17 @@ export const getServerSideProps: GetServerSideProps<
 };
 
 export default function ActivityDetails({ activity }: ActivityDetailsProps) {
+  const router = useRouter();
   return (
     <>
       <Head>
         <title>{activity.name} | CDTR</title>
       </Head>
-      <PageTitle title={activity.name} prevPath="/discover" />
+      <PageTitle title={activity.name} prevPath={router.back} />
       <Grid>
         <Grid.Col span={7}>
           <Image
-            src="https://images.unsplash.com/photo-1527004013197-933c4bb611b3?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=720&q=80"
+            src="https://source.unsplash.com/random/?city"
             radius="md"
             alt="Norway"
           />

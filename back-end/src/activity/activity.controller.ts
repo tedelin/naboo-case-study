@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -33,8 +34,16 @@ export class ActivityController {
   }
 
   @Get('/cities/:city')
-  async getByCity(@Param('city') city: string): Promise<ActivityDto[]> {
-    const activities = await this.activityService.findByCity(city);
+  async getByCity(
+    @Param('city') city: string,
+    @Query('activity') activity?: string | undefined,
+    @Query('price') price?: string | undefined,
+  ): Promise<ActivityDto[]> {
+    const activities = await this.activityService.findByCity(
+      city,
+      activity,
+      price ? Number(price) : undefined,
+    );
     return activities.map((activity) => this.activityMapper.convert(activity));
   }
 

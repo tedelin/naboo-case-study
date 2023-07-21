@@ -36,7 +36,20 @@ export class ActivityService {
     return this.activityModel.distinct('city').exec();
   }
 
-  async findByCity(city: string): Promise<Activity[]> {
-    return this.activityModel.find({ city }).populate('owner').exec();
+  async findByCity(
+    city: string,
+    activity?: string,
+    price?: number,
+  ): Promise<Activity[]> {
+    return this.activityModel
+      .find({
+        $and: [
+          { city },
+          ...(price ? [{ price }] : []),
+          ...(activity ? [{ name: { $regex: activity, $options: 'i' } }] : []),
+        ],
+      })
+      .populate('owner')
+      .exec();
   }
 }
