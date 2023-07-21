@@ -49,11 +49,13 @@ yarn dev
 
 ## Todo
 
-- [ ] Home page with 3 activities
+- [x] Home page with 3 activities
 - [x] Explorer, list activity city
 - [x] Explorer[city], show activities
 - [x] Explorer[city], filter activities
 - [x] Profil page
+- [ ] Page mes activités
+- [ ] Framer
 - [ ] Add seeds
 - [ ] Add tests
 - [ ] check design

@@ -12,7 +12,20 @@ export class ActivityService {
   ) {}
 
   async findAll(): Promise<Activity[]> {
-    return this.activityModel.find().populate('owner').exec();
+    return this.activityModel
+      .find()
+      .sort({ createdAt: -1 })
+      .populate('owner')
+      .exec();
+  }
+
+  async findLatest(): Promise<Activity[]> {
+    return this.activityModel
+      .find()
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .populate('owner')
+      .exec();
   }
 
   async findOne(id: string): Promise<Activity> {

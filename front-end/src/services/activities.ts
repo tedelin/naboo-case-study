@@ -8,6 +8,12 @@ export function getActivities(): Promise<Activity[]> {
     .then((response: AxiosResponse<Activity[]>) => response.data);
 }
 
+export function getLatestActivities(): Promise<Activity[]> {
+  return axiosInstance
+    .get("/activities/latest")
+    .then((response: AxiosResponse<Activity[]>) => response.data);
+}
+
 export function getActivity(id: string): Promise<Activity> {
   return axiosInstance
     .get(`/activities/${id}`)
