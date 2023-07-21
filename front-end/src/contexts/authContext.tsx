@@ -48,7 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const token = await signin(input);
       localStorage.setItem("token", token);
       getUser().then(setUser);
-      router.push("/profile");
+      router.push("/profil");
     } catch (err) {
       snackbar.error("Une erreur est survenue");
     } finally {

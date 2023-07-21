@@ -1,6 +1,7 @@
 import { PageTitle } from "@/components";
 import { withAuth } from "@/hocs";
 import { useAuth } from "@/hooks";
+import { Avatar, Flex, Text } from "@mantine/core";
 import Head from "next/head";
 
 const Profile = () => {
@@ -11,11 +12,17 @@ const Profile = () => {
         <title>Mon profil | CDTR</title>
       </Head>
       <PageTitle title="Mon profil" />
-      <div>
-        <p>{user?.email}</p>
-        <p>{user?.firstName}</p>
-        <p>{user?.lastName}</p>
-      </div>
+      <Flex align="center" gap="md">
+        <Avatar color="cyan" radius="xl" size="lg">
+          {user?.firstName[0]}
+          {user?.lastName[0]}
+        </Avatar>
+        <Flex direction="column">
+          <Text>{user?.email}</Text>
+          <Text>{user?.firstName}</Text>
+          <Text>{user?.lastName}</Text>
+        </Flex>
+      </Flex>
     </>
   );
 };

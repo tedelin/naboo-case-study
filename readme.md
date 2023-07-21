@@ -52,8 +52,8 @@ yarn dev
 - [ ] Home page with 3 activities
 - [x] Explorer, list activity city
 - [x] Explorer[city], show activities
-- [ ] Explorer[city], filter activities
-- [ ] Profil page
+- [x] Explorer[city], filter activities
+- [x] Profil page
 - [ ] Add seeds
 - [ ] Add tests
 - [ ] check design
