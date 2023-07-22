@@ -8,5 +8,6 @@ export const useGlobalStyles = createStyles(() => ({
   ellipsis: {
     overflow: "hidden",
     textOverflow: "ellipsis",
+    whiteSpace: "nowrap",
   },
 }));

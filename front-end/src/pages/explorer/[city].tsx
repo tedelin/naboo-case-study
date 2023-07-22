@@ -51,12 +51,12 @@ export default function ActivityDetails({
   const searchParams = useSearchParams();
 
   const [searchActivity, setSearchActivity] = useState<string | undefined>(
-    searchParams.get("activity") || undefined
+    searchParams?.get("activity") || undefined
   );
   const debouncedSearchActivity = useDebounced(searchActivity, 300);
 
   const [searchPrice, setSearchPrice] = useState<number | undefined>(
-    searchParams.get("price") ? Number(searchParams.get("price")) : undefined
+    searchParams?.get("price") ? Number(searchParams.get("price")) : undefined
   );
   const debouncedSearchPrice = useDebounced(searchPrice, 300);
 

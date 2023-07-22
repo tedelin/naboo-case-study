@@ -30,7 +30,9 @@ export default function ActivityDetails({ activity }: ActivityDetailsProps) {
           <Image
             src="https://source.unsplash.com/random/?city"
             radius="md"
-            alt="Norway"
+            alt="random image of city"
+            width="100%"
+            height="400"
           />
         </Grid.Col>
         <Grid.Col span={5}>

@@ -56,7 +56,7 @@ yarn dev
 - [x] Profil page
 - [ ] Page mes activités
 - [ ] Framer
-- [ ] Add seeds
+- [x] Add seeds
 - [ ] Add tests
-- [ ] check design
+- [x] check design
 - [ ] share types between front and back

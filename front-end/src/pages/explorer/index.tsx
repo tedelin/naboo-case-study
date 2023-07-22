@@ -1,6 +1,6 @@
 import { City, EmptyData, PageTitle } from "@/components";
 import { getCities } from "@/services";
-import { Grid } from "@mantine/core";
+import { Flex } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
@@ -22,13 +22,13 @@ export default function Explorer({ cities }: ExplorerProps) {
         <title>Explorer | CDTR</title>
       </Head>
       <PageTitle title="Trouvez une activité dans votre ville" />
-      <Grid>
+      <Flex direction="column" gap="1rem">
         {cities.length > 0 ? (
           cities.map((city) => <City city={city} key={city} />)
         ) : (
           <EmptyData />
         )}
-      </Grid>
+      </Flex>
     </>
   );
 }

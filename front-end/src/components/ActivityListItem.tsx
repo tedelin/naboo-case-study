@@ -15,7 +15,7 @@ export function ActivityListItem({ activity }: ActivityListItemProps) {
         <Image
           src="https://source.unsplash.com/random/?city"
           radius="md"
-          alt="Norway"
+          alt="random image of city"
           height="125"
           width="125"
         />

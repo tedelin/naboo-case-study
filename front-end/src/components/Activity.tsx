@@ -35,12 +35,7 @@ export function Activity({ activity }: ActivityProps) {
           </Badge>
         </Group>
 
-        <Text
-          size="sm"
-          color="dimmed"
-          sx={{ height: "3rem" }}
-          className={classes.ellipsis}
-        >
+        <Text size="sm" color="dimmed" className={classes.ellipsis}>
           {activity.description}
         </Text>
 
