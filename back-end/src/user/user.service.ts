@@ -45,4 +45,8 @@ export class UserService {
     user.token = token;
     return user.save();
   }
+
+  async countDocuments(): Promise<number> {
+    return this.userModel.countDocuments().exec();
+  }
 }

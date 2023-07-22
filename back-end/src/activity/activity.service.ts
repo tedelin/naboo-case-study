@@ -65,4 +65,8 @@ export class ActivityService {
       .populate('owner')
       .exec();
   }
+
+  async countDocuments(): Promise<number> {
+    return this.activityModel.estimatedDocumentCount().exec();
+  }
 }
