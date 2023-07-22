@@ -24,6 +24,8 @@ export function Filters({
         borderRadius: tm.radius.md,
         backgroundColor: tm.colors.gray[2],
         padding: tm.spacing.md,
+        position: "sticky",
+        top: "10px",
       })}
     >
       <TextInput

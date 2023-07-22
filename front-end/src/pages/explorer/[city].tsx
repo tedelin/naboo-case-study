@@ -27,14 +27,12 @@ export const getServerSideProps: GetServerSideProps<CityDetailsProps> = async ({
 
   const searchParams = (() => {
     const activity = query.activity || null;
-    const price = query.price ? Number(query.price) : null;
+    const price = query.price || null;
     const searchParams = new URLSearchParams();
 
     if (!activity && !price) return undefined;
-
     if (activity) searchParams.set("activity", activity);
-
-    if (price) searchParams.set("price", price.toString());
+    if (price) searchParams.set("price", price);
 
     return searchParams.toString();
   })();
@@ -80,7 +78,7 @@ export default function ActivityDetails({
   return (
     <>
       <Head>
-        <title>{city || "Ville"} | CDTR</title>
+        <title>{city} | CDTR</title>
       </Head>
       <PageTitle
         title={`Activités pour la ville de ${city}`}
