@@ -1,6 +1,6 @@
 import { IconUserCircle } from "@tabler/icons-react";
 
-type SubRoute = {
+export type SubRoute = {
   link: string;
   label: string;
   requiredAuth?: boolean;

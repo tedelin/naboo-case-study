@@ -33,6 +33,13 @@ export class ActivityController {
     return activities.map((activity) => this.activityMapper.convert(activity));
   }
 
+  @UseGuards(AuthGuard)
+  @Get('/user')
+  async getByUser(@Request() req: IRequest): Promise<ActivityDto[]> {
+    const activities = await this.activityService.findByUser(req.user.id);
+    return activities.map((activity) => this.activityMapper.convert(activity));
+  }
+
   @Get('/listCities')
   async getCities(): Promise<string[]> {
     const cities = await this.activityService.findCities();

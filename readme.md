@@ -54,7 +54,7 @@ yarn dev
 - [x] Explorer[city], show activities
 - [x] Explorer[city], filter activities
 - [x] Profil page
-- [ ] Page mes activités
+- [x] Page mes activités
 - [ ] Framer
 - [x] Add seeds
 - [ ] Add tests

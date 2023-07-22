@@ -28,6 +28,14 @@ export class ActivityService {
       .exec();
   }
 
+  async findByUser(userId: string): Promise<Activity[]> {
+    return this.activityModel
+      .find({ owner: userId })
+      .sort({ createdAt: -1 })
+      .populate('owner')
+      .exec();
+  }
+
   async findOne(id: string): Promise<Activity> {
     const activity = await this.activityModel
       .findById(id)

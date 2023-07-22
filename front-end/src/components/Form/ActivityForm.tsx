@@ -41,7 +41,7 @@ export default function ActivityForm() {
   });
 
   useEffect(() => {
-    if (debouncedSearch && debouncedSearch !== searchValue) {
+    if (debouncedSearch) {
       searchCity(debouncedSearch)
         .then((data) => {
           setDisplayedCities(data.map((d) => ({ value: d.nom, label: d.nom })));
@@ -56,7 +56,7 @@ export default function ActivityForm() {
     try {
       setIsLoading(true);
       await createActivity({ ...values, price: Number(values.price) });
-      router.push("/discover");
+      router.back();
     } catch (err) {
       snackbar.error("Une erreur est survenue");
     } finally {
