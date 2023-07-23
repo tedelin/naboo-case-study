@@ -13,8 +13,10 @@ interface MyActivitiesProps {
 
 export const getServerSideProps: GetServerSideProps<
   MyActivitiesProps
-> = async () => {
-  const activities = await getUserActivities();
+> = async ({ req }) => {
+  const activities = await getUserActivities({
+    headers: { Cookie: req.headers.cookie },
+  });
   return { props: { activities } };
 };
 

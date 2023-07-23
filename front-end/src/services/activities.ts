@@ -1,5 +1,5 @@
 import { Activity, ActivityInput } from "@/utils";
-import { AxiosResponse } from "axios";
+import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { axiosInstance } from "./axios";
 
 export function getActivities(): Promise<Activity[]> {
@@ -8,9 +8,11 @@ export function getActivities(): Promise<Activity[]> {
     .then((response: AxiosResponse<Activity[]>) => response.data);
 }
 
-export function getUserActivities(): Promise<Activity[]> {
+export function getUserActivities(
+  config: AxiosRequestConfig<any>
+): Promise<Activity[]> {
   return axiosInstance
-    .get("/activities/user")
+    .get("/activities/user", config)
     .then((response: AxiosResponse<Activity[]>) => response.data);
 }
 

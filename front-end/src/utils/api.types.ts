@@ -21,6 +21,10 @@ export interface User {
   email: string;
 }
 
+export interface City {
+  nom: string;
+}
+
 export interface ActivityInput {
   name: string;
   city: string;

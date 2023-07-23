@@ -12,8 +12,8 @@ export class MeController {
     private userMapper: UserMapper,
   ) {}
 
-  @UseGuards(AuthGuard)
   @Get()
+  @UseGuards(AuthGuard)
   async getMe(@Request() req: IRequest): Promise<UserDto> {
     const user = await this.userService.getById(req.user?.id);
     return this.userMapper.convert(user);

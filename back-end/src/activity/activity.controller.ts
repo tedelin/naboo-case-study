@@ -33,8 +33,8 @@ export class ActivityController {
     return activities.map((activity) => this.activityMapper.convert(activity));
   }
 
-  @UseGuards(AuthGuard)
   @Get('/user')
+  @UseGuards(AuthGuard)
   async getByUser(@Request() req: IRequest): Promise<ActivityDto[]> {
     const activities = await this.activityService.findByUser(req.user.id);
     return activities.map((activity) => this.activityMapper.convert(activity));
@@ -66,8 +66,8 @@ export class ActivityController {
     return this.activityMapper.convert(activity);
   }
 
-  @UseGuards(AuthGuard)
   @Post()
+  @UseGuards(AuthGuard)
   async createActivity(
     @Request() req: IRequest,
     @Body() createActivityDto: CreateActivityInput,
