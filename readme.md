@@ -42,6 +42,11 @@ yarn
 yarn dev
 ```
 
+## Connection informations
+
+email: user1@test.fr
+password: user1
+
 ## Possible improvements
 
 - Migrate to monorepo or something else to be able to share types between back and front easily
