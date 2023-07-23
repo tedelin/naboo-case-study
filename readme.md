@@ -14,6 +14,7 @@ frontend
 - nextjs (with page router)
 - mantine-ui
 - axios
+- vitest
 
 ## How to launch project ?
 
@@ -55,8 +56,9 @@ yarn dev
 - [x] Explorer[city], filter activities
 - [x] Profil page
 - [x] Page mes activités
-- [ ] Framer
 - [x] Add seeds
-- [ ] Add tests
+- [-] Add tests
 - [x] check design
+- [ ] Turn some pages into modal
+- [ ] Framer for animations
 - [ ] share types between front and back
