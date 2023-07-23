@@ -1,7 +1,10 @@
 import { User } from "@/utils";
 import { Route, SubRoute } from "./types";
 
-const checkRouteAccess = (route: Route | SubRoute, user: User | null) => {
+export const checkRouteAccess = (
+  route: Route | SubRoute,
+  user: User | null
+) => {
   if (user) {
     if (route.requiredAuth === undefined || route.requiredAuth === true) {
       return true; // Include sub-routes with requiredAuth undefined or true
