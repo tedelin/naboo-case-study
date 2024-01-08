@@ -18,19 +18,11 @@ frontend
 
 ## How to launch project ?
 
-prerequisite
-
-- docker with docker-compose
-
 backend
 
 ```bash
 yarn
 
-# terminal 1 - run database
-yarn start:db
-
-# terminal 2
 yarn start:dev
 ```
 

@@ -15,9 +15,7 @@ import { UserModule } from './user/user.module';
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRootAsync({
       useFactory: () => {
-        return {
-          uri: `mongodb://${process.env.MONGO_USERNAME}:${process.env.MONGO_PW}@${process.env.MONGO_HOST_IP}:${process.env.MONGO_PORT}/${process.env.MONGO_INITDB_DATABASE}`,
-        };
+        return { uri: process.env.MONGO_URI };
       },
     }),
     AuthModule,
