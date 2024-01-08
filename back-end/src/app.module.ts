@@ -9,10 +9,18 @@ import { MeModule } from './me/me.module';
 import { SeedModule } from './seed/seed.module';
 import { SeedService } from './seed/seed.service';
 import { UserModule } from './user/user.module';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: 'schema.gql',
+      sortSchema: true,
+      buildSchemaOptions: { numberScalarMode: 'integer' },
+    }),
     MongooseModule.forRootAsync({
       useFactory: () => {
         return { uri: process.env.MONGO_URI };

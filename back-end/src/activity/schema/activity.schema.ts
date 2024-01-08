@@ -5,23 +5,23 @@ import { User } from '../../user/schema/user.schema';
 @Schema({ timestamps: true })
 export class Activity extends Document {
   @Prop({ required: true })
-  name: string;
+  name!: string;
 
   @Prop({ required: true })
-  city: string;
+  city!: string;
 
   @Prop({ required: true })
-  description: string;
+  description!: string;
 
   @Prop({ required: true })
-  price: number;
+  price!: number;
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: User.name,
     required: true,
   })
-  owner: User;
+  owner!: User;
 }
 
 export const ActivitySchema = SchemaFactory.createForClass(Activity);

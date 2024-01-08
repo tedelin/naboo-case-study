@@ -36,7 +36,7 @@ export class ActivityController {
   @Get('/user')
   @UseGuards(AuthGuard)
   async getByUser(@Request() req: IRequest): Promise<ActivityDto[]> {
-    const activities = await this.activityService.findByUser(req.user.id);
+    const activities = await this.activityService.findByUser(req.user!.id);
     return activities.map((activity) => this.activityMapper.convert(activity));
   }
 
@@ -73,7 +73,7 @@ export class ActivityController {
     @Body() createActivityDto: CreateActivityInput,
   ): Promise<ActivityDto> {
     const activity = await this.activityService.create(
-      req.user.id,
+      req.user!.id,
       createActivityDto,
     );
     return this.activityMapper.convert(activity);

@@ -18,7 +18,7 @@ export class SeedService {
 
     if (users === 0 && activities === 0) {
       try {
-        const hashedPassword = await bcrypt.hash(userData[0].password, 10);
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
         const user = await this.userService.createUser({
           ...userData,
           password: hashedPassword,

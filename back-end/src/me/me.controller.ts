@@ -1,4 +1,10 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  NotFoundException,
+  Request,
+  UseGuards,
+} from '@nestjs/common';
 import { UserMapper } from 'src/user/mapper/user.mapper';
 import { UserDto } from 'src/user/types/user.dto';
 import { AuthGuard } from '../auth/auth.guard';
@@ -15,7 +21,8 @@ export class MeController {
   @Get()
   @UseGuards(AuthGuard)
   async getMe(@Request() req: IRequest): Promise<UserDto> {
-    const user = await this.userService.getById(req.user?.id);
+    const user = await this.userService.getById(req.user!.id);
+
     return this.userMapper.convert(user);
   }
 }

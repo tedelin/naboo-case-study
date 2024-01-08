@@ -1,0 +1,15 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ActivityDto {
+  city: String!
+  description: String!
+  id: String!
+  name: String!
+  price: Int!
+}
+
+type Query {
+  getActivities: [ActivityDto!]!
+}

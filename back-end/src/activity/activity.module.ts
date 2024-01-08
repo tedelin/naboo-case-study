@@ -5,6 +5,7 @@ import { ActivityController } from './activity.controller';
 import { ActivityService } from './activity.service';
 import { ActivityMapper } from './mapper/activity.mapper';
 import { Activity, ActivitySchema } from './schema/activity.schema';
+import { ActivityResolver } from './resolver/activity.resolver';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { Activity, ActivitySchema } from './schema/activity.schema';
   ],
   exports: [ActivityService, ActivityMapper],
   controllers: [ActivityController],
-  providers: [ActivityService, ActivityMapper],
+  providers: [ActivityService, ActivityMapper, ActivityResolver],
 })
 export class ActivityModule {}
