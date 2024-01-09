@@ -8,6 +8,7 @@ backend
 - nestjs
 - mongoose
 - data mapper pattern
+- graphql
 
 frontend
 
@@ -15,47 +16,35 @@ frontend
 - mantine-ui
 - axios
 - vitest
+- graphql
+- apollo client
 
 ## How to launch project ?
 
 backend
 
 ```bash
-yarn
+npm i
 
-yarn start:dev
+npm run start:dev
 ```
 
 frontend
 
 ```bash
-yarn
+npm i
 
-yarn dev
+npm run dev
+```
+
+after graphql modification
+
+```bash
+# > frontend
+npm run generate-types
 ```
 
 ## Connection informations
 
 email: user1@test.fr
 password: user1
-
-## Possible improvements
-
-- Migrate to monorepo or something else to be able to share types between back and front easily
-- Add more tests, maybe with test database
-- and surely others !
-
-## Todo
-
-- [x] Home page with 3 activities
-- [x] Explorer, list activity city
-- [x] Explorer[city], show activities
-- [x] Explorer[city], filter activities
-- [x] Profil page
-- [x] Page mes activités
-- [x] Add seeds
-- [-] Add tests
-- [x] check design
-- [ ] Turn some pages into modal
-- [ ] Framer for animations
-- [ ] share types between front and back
