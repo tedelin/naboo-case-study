@@ -13,8 +13,10 @@ export class ActivityMapper implements Mapper<Activity, ActivityDto> {
       description: activity.description,
       price: activity.price,
       owner: {
+        id: activity.owner._id,
         firstName: activity.owner.firstName,
         lastName: activity.owner.lastName,
+        email: activity.owner.email,
       },
     };
   }

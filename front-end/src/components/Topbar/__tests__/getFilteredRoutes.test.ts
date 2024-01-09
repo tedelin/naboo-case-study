@@ -1,4 +1,4 @@
-import { User } from "@/utils";
+import { GetUserQuery } from "@/graphql/generated/types";
 import { checkRouteAccess, getFilteredRoutes } from "../getFilteredRoutes";
 import { Route, SubRoute } from "../types";
 
@@ -9,7 +9,7 @@ interface CheckRouteAccessTest {
   result: boolean;
 }
 
-const user: User = {
+const user: GetUserQuery["getMe"] = {
   id: "user1",
   email: "user1@test.fr",
   firstName: "john",

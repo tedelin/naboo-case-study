@@ -1,6 +1,5 @@
 import { useDebounced, useSnackbar } from "@/hooks";
-import { createActivity, searchCity } from "@/services";
-import { ActivityInput } from "@/utils";
+import { searchCity } from "@/services";
 import { Box, Button, Group, Select, TextInput, Textarea } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/router";
@@ -11,6 +10,13 @@ import {
   nameValidation,
   priceValidation,
 } from "./validationRules";
+import { useMutation } from "@apollo/client";
+import CreateActivity from "@/graphql/mutations/activity/createActivity";
+import {
+  CreateActivityInput,
+  CreateActivityMutation,
+  CreateActivityMutationVariables,
+} from "@/graphql/generated/types";
 
 type SelectData = {
   value: string;
@@ -25,7 +31,12 @@ export default function ActivityForm() {
   const [displayedCities, setDisplayedCities] = useState<SelectData[]>([]);
   const router = useRouter();
 
-  const form = useForm<ActivityInput>({
+  const [createActivity] = useMutation<
+    CreateActivityMutation,
+    CreateActivityMutationVariables
+  >(CreateActivity);
+
+  const form = useForm<CreateActivityInput>({
     initialValues: {
       name: "",
       description: "",
@@ -52,10 +63,14 @@ export default function ActivityForm() {
     }
   }, [debouncedSearch, searchValue, snackbar]);
 
-  const handleSubmit = async (values: ActivityInput) => {
+  const handleSubmit = async (values: CreateActivityInput) => {
     try {
       setIsLoading(true);
-      await createActivity({ ...values, price: Number(values.price) });
+      await createActivity({
+        variables: {
+          createActivityInput: { ...values, price: Number(values.price) },
+        },
+      });
       router.back();
     } catch (err) {
       snackbar.error("Une erreur est survenue");

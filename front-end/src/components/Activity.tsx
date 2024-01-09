@@ -1,9 +1,10 @@
-import { Activity, useGlobalStyles } from "@/utils";
+import { ActivityFragment } from "@/graphql/generated/types";
+import { useGlobalStyles } from "@/utils";
 import { Badge, Button, Card, Grid, Group, Image, Text } from "@mantine/core";
 import Link from "next/link";
 
 interface ActivityProps {
-  activity: Activity;
+  activity: ActivityFragment;
 }
 
 export function Activity({ activity }: ActivityProps) {

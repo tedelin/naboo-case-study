@@ -7,9 +7,11 @@
     "build": "next build",
     "start": "next start -p 3001",
     "lint": "next lint",
-    "test": "vitest"
+    "test": "vitest",
+    "generate-types": "cp ../back-end/schema.gql ./src/graphql/schema.gql && graphql-codegen"
   },
   "dependencies": {
+    "@apollo/client": "^3.8.8",
     "@emotion/react": "^11.11.1",
     "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.16",
@@ -18,11 +20,17 @@
     "@mantine/next": "^6.0.16",
     "@tabler/icons-react": "^2.25.0",
     "axios": "^1.4.0",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
     "next": "13.4.10",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript": "^4.0.1",
+    "@graphql-codegen/typescript-operations": "^4.0.1",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",

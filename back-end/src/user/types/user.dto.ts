@@ -1,6 +1,16 @@
-export interface UserDto {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+import { Field, ObjectType } from '@nestjs/graphql';
+
+@ObjectType()
+export class UserDto {
+  @Field()
+  id!: string;
+
+  @Field()
+  firstName!: string;
+
+  @Field()
+  lastName!: string;
+
+  @Field()
+  email!: string;
 }

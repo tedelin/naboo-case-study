@@ -1,5 +1,4 @@
 import { useAuth } from "@/hooks";
-import { SignUpInput } from "@/utils";
 import { Box, Button, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import Link from "next/link";
@@ -9,6 +8,7 @@ import {
   lastNameValidation,
   passwordValidation,
 } from "./validationRules";
+import { SignUpInput } from "@/graphql/generated/types";
 
 export default function SignupForm() {
   const { handleSignup, isLoading } = useAuth();

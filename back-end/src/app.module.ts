@@ -20,6 +20,10 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
       autoSchemaFile: 'schema.gql',
       sortSchema: true,
       buildSchemaOptions: { numberScalarMode: 'integer' },
+      context: ({ req, res }: { req: Request; res: Response }) => ({
+        req,
+        res,
+      }),
     }),
     MongooseModule.forRootAsync({
       useFactory: () => {

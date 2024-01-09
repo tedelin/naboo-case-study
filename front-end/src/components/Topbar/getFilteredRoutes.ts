@@ -1,9 +1,9 @@
-import { User } from "@/utils";
+import { GetUserQuery } from "@/graphql/generated/types";
 import { Route, SubRoute } from "./types";
 
 export const checkRouteAccess = (
   route: Route | SubRoute,
-  user: User | null
+  user: GetUserQuery["getMe"] | null
 ) => {
   if (user) {
     if (route.requiredAuth === undefined || route.requiredAuth === true) {
@@ -17,7 +17,10 @@ export const checkRouteAccess = (
   return false; // Exclude sub-routes that don't match the conditions
 };
 
-export const getFilteredRoutes = (routes: Route[], user: User | null) => {
+export const getFilteredRoutes = (
+  routes: Route[],
+  user: GetUserQuery["getMe"] | null
+) => {
   return routes
     .map((route) => {
       if (Array.isArray(route.route)) {

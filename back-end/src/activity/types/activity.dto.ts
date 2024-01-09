@@ -18,5 +18,6 @@ export class ActivityDto {
   @Field(() => Int)
   price!: number;
 
-  owner!: Pick<UserDto, 'firstName' | 'lastName'>;
+  @Field(() => UserDto)
+  owner!: UserDto;
 }

@@ -1,18 +1,28 @@
 import { City, EmptyData, PageTitle } from "@/components";
-import { getCities } from "@/services";
+import { graphqlClient } from "@/graphql/apollo";
+import {
+  GetCitiesQuery,
+  GetCitiesQueryVariables,
+} from "@/graphql/generated/types";
+import GetCities from "@/graphql/queries/city/getCities";
 import { Flex } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 
 interface ExplorerProps {
-  cities: Awaited<ReturnType<typeof getCities>>;
+  cities: GetCitiesQuery["getCities"];
 }
 
 export const getServerSideProps: GetServerSideProps<
   ExplorerProps
 > = async () => {
-  const cities = await getCities();
-  return { props: { cities } };
+  const response = await graphqlClient.query<
+    GetCitiesQuery,
+    GetCitiesQueryVariables
+  >({
+    query: GetCities,
+  });
+  return { props: { cities: response.data.getCities } };
 };
 
 export default function Explorer({ cities }: ExplorerProps) {

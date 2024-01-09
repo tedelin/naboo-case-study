@@ -1,6 +1,11 @@
 import { ActivityListItem, EmptyData, Filters, PageTitle } from "@/components";
+import { graphqlClient } from "@/graphql/apollo";
+import {
+  GetActivitiesByCityQuery,
+  GetActivitiesByCityQueryVariables,
+} from "@/graphql/generated/types";
+import GetActivitiesByCity from "@/graphql/queries/activity/getActivitiesByCity";
 import { useDebounced } from "@/hooks";
-import { getActivitiesByCity } from "@/services";
 import { Divider, Flex, Grid } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
@@ -9,7 +14,7 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 
 interface CityDetailsProps {
-  activities: Awaited<ReturnType<typeof getActivitiesByCity>>;
+  activities: GetActivitiesByCityQuery["getActivitiesByCity"];
   city: string;
 }
 
@@ -25,21 +30,19 @@ export const getServerSideProps: GetServerSideProps<CityDetailsProps> = async ({
   )
     return { notFound: true };
 
-  const searchParams = (() => {
-    const activity = query.activity || null;
-    const price = query.price || null;
-    const searchParams = new URLSearchParams();
-
-    if (!activity && !price) return undefined;
-    if (activity) searchParams.set("activity", activity);
-    if (price) searchParams.set("price", price);
-
-    return searchParams.toString();
-  })();
-
-  const activities = await getActivitiesByCity(params.city, searchParams);
+  const response = await graphqlClient.query<
+    GetActivitiesByCityQuery,
+    GetActivitiesByCityQueryVariables
+  >({
+    query: GetActivitiesByCity,
+    variables: {
+      city: params.city,
+      activity: query.activity || null,
+      price: query.price ? Number(query.price) : null,
+    },
+  });
   return {
-    props: { activities, city: params.city },
+    props: { activities: response.data.getActivitiesByCity, city: params.city },
   };
 };
 

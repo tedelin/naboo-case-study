@@ -1,20 +1,31 @@
 import { PageTitle } from "@/components";
-import { getActivity } from "@/services";
+import { graphqlClient } from "@/graphql/apollo";
+import {
+  GetActivityQuery,
+  GetActivityQueryVariables,
+} from "@/graphql/generated/types";
+import GetActivity from "@/graphql/queries/activity/getActivity";
 import { Badge, Flex, Grid, Group, Image, Text } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 
 interface ActivityDetailsProps {
-  activity: Awaited<ReturnType<typeof getActivity>>;
+  activity: GetActivityQuery["getActivity"];
 }
 
 export const getServerSideProps: GetServerSideProps<
   ActivityDetailsProps
 > = async ({ params }) => {
   if (!params?.id || Array.isArray(params.id)) return { notFound: true };
-  const activity = await getActivity(params.id);
-  return { props: { activity } };
+  const response = await graphqlClient.query<
+    GetActivityQuery,
+    GetActivityQueryVariables
+  >({
+    query: GetActivity,
+    variables: { id: params.id },
+  });
+  return { props: { activity: response.data.getActivity } };
 };
 
 export default function ActivityDetails({ activity }: ActivityDetailsProps) {

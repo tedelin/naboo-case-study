@@ -1,20 +1,30 @@
 import { Activity, EmptyData, PageTitle } from "@/components";
+import { graphqlClient } from "@/graphql/apollo";
+import {
+  GetActivitiesQuery,
+  GetActivitiesQueryVariables,
+} from "@/graphql/generated/types";
+import GetActivities from "@/graphql/queries/activity/getActivities";
 import { useAuth } from "@/hooks";
-import { getActivities } from "@/services";
 import { Button, Grid, Group } from "@mantine/core";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Link from "next/link";
 
 interface DiscoverProps {
-  activities: Awaited<ReturnType<typeof getActivities>>;
+  activities: GetActivitiesQuery["getActivities"];
 }
 
 export const getServerSideProps: GetServerSideProps<
   DiscoverProps
 > = async () => {
-  const activities = await getActivities();
-  return { props: { activities } };
+  const response = await graphqlClient.query<
+    GetActivitiesQuery,
+    GetActivitiesQueryVariables
+  >({
+    query: GetActivities,
+  });
+  return { props: { activities: response.data.getActivities } };
 };
 
 export default function Discover({ activities }: DiscoverProps) {
