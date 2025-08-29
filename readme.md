@@ -21,6 +21,12 @@ frontend
 
 ## How to launch project ?
 
+Database
+
+```bash
+docker compose up
+```
+
 backend
 
 ```bash
