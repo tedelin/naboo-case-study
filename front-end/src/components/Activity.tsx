@@ -1,4 +1,5 @@
 import { ActivityFragment } from "@/graphql/generated/types";
+import { useAuth } from "@/hooks";
 import { useGlobalStyles } from "@/utils";
 import { Badge, Button, Card, Grid, Group, Image, Text } from "@mantine/core";
 import Link from "next/link";
@@ -9,6 +10,7 @@ interface ActivityProps {
 
 export function Activity({ activity }: ActivityProps) {
   const { classes } = useGlobalStyles();
+  const { user } = useAuth();
 
   return (
     <Grid.Col span={4}>
@@ -45,6 +47,11 @@ export function Activity({ activity }: ActivityProps) {
             Voir plus
           </Button>
         </Link>
+        {user?.role === "admin" && (
+          <Text size="sm" color="dimmed" className={classes.ellipsis}>
+            {new Date(activity.createdAt).toLocaleString()}
+          </Text>
+        )}
       </Card>
     </Grid.Col>
   );

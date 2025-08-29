@@ -15,7 +15,7 @@ import Signin from "@/graphql/mutations/auth/signin";
 import Signup from "@/graphql/mutations/auth/signup";
 import GetUser from "@/graphql/queries/auth/getUser";
 import { useSnackbar } from "@/hooks";
-import { useLazyQuery, useMutation } from "@apollo/client";
+import { useApolloClient, useLazyQuery, useMutation } from "@apollo/client";
 import { useRouter } from "next/router";
 import { createContext, useEffect, useState } from "react";
 
@@ -45,10 +45,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<GetUserQuery["getMe"] | null>(null);
   const router = useRouter();
 
-  const [getUser] = useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUser);
+  const [getUser] = useLazyQuery<GetUserQuery, GetUserQueryVariables>(GetUser, {
+    fetchPolicy: "network-only",
+  });
   const [signin] = useMutation<SigninMutation, SigninMutationVariables>(Signin);
   const [signup] = useMutation<SignupMutation, SignupMutationVariables>(Signup);
   const [logout] = useMutation<LogoutMutation, LogoutMutationVariables>(Logout);
+  const client = useApolloClient();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -60,7 +63,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     } else {
       setIsLoading(false);
     }
-  }, [user]);
+  }, []);
 
   const handleSignin = async (input: SignInInput) => {
     try {
@@ -69,7 +72,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const token = response.data?.login?.access_token || "";
       localStorage.setItem("token", token);
       await getUser().then((res) => setUser(res.data?.getMe || null));
-      router.push("/profil");
+      await router.replace("/profil");
     } catch (err) {
       snackbar.error("Une erreur est survenue");
     } finally {
@@ -81,7 +84,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     try {
       setIsLoading(true);
       await signup({ variables: { signUpInput: input } });
-      router.push("/signin");
+      await router.replace("/signin");
     } catch (err) {
       snackbar.error("Une erreur est survenue");
     } finally {
@@ -95,7 +98,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await logout();
       localStorage.removeItem("token");
       setUser(null);
-      router.push("/");
+      await client.clearStore();
+      await router.replace("/");
     } catch (err) {
       snackbar.error("Une erreur est survenue");
     } finally {
