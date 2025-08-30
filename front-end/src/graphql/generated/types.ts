@@ -37,10 +37,18 @@ export type CreateActivityInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addFavorite: Array<Activity>;
   createActivity: Activity;
   login: SignInDto;
   logout: Scalars['Boolean']['output'];
   register: User;
+  reorderFavorite: Array<Activity>;
+};
+
+
+export type MutationAddFavoriteArgs = {
+  activityId: Scalars['String']['input'];
+  userId: Scalars['String']['input'];
 };
 
 
@@ -58,6 +66,13 @@ export type MutationRegisterArgs = {
   signUpInput: SignUpInput;
 };
 
+
+export type MutationReorderFavoriteArgs = {
+  activityId: Scalars['String']['input'];
+  newIndex: Scalars['Int']['input'];
+  userId: Scalars['String']['input'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getActivities: Array<Activity>;
@@ -65,6 +80,7 @@ export type Query = {
   getActivitiesByUser: Array<Activity>;
   getActivity: Activity;
   getCities: Array<Scalars['String']['output']>;
+  getFavorites: Array<Activity>;
   getLatestActivities: Array<Activity>;
   getMe: User;
 };
@@ -79,6 +95,11 @@ export type QueryGetActivitiesByCityArgs = {
 
 export type QueryGetActivityArgs = {
   id: Scalars['String']['input'];
+};
+
+
+export type QueryGetFavoritesArgs = {
+  userId: Scalars['String']['input'];
 };
 
 export type SignInDto = {
@@ -298,10 +319,12 @@ export interface DateTimeScalarConfig extends GraphQLScalarTypeConfig<ResolversT
 }
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
+  addFavorite?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<MutationAddFavoriteArgs, 'activityId' | 'userId'>>;
   createActivity?: Resolver<ResolversTypes['Activity'], ParentType, ContextType, RequireFields<MutationCreateActivityArgs, 'createActivityInput'>>;
   login?: Resolver<ResolversTypes['SignInDto'], ParentType, ContextType, RequireFields<MutationLoginArgs, 'signInInput'>>;
   logout?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   register?: Resolver<ResolversTypes['User'], ParentType, ContextType, RequireFields<MutationRegisterArgs, 'signUpInput'>>;
+  reorderFavorite?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<MutationReorderFavoriteArgs, 'activityId' | 'newIndex' | 'userId'>>;
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
@@ -310,6 +333,7 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   getActivitiesByUser?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType>;
   getActivity?: Resolver<ResolversTypes['Activity'], ParentType, ContextType, RequireFields<QueryGetActivityArgs, 'id'>>;
   getCities?: Resolver<Array<ResolversTypes['String']>, ParentType, ContextType>;
+  getFavorites?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType, RequireFields<QueryGetFavoritesArgs, 'userId'>>;
   getLatestActivities?: Resolver<Array<ResolversTypes['Activity']>, ParentType, ContextType>;
   getMe?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 };

@@ -1,9 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
+import { Model, Types } from 'mongoose';
+import { Activity } from 'src/activity/activity.schema';
 import { SignUpInput } from 'src/auth/types';
 import { User } from './user.schema';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -73,5 +74,55 @@ export class UserService {
       throw new NotFoundException('User not found');
     }
     return user;
+  }
+
+  async addFavorite(userId: string, activityId: string): Promise<Activity[]> {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const activityObjId = new Types.ObjectId(activityId);
+
+    if (!user.favorites.some((fav) => fav.equals(activityObjId))) {
+      user.favorites.push(activityObjId);
+      await user.save();
+    }
+
+    await user.populate('favorites');
+    const populatedUser = await user.populate<{ favorites: Activity[] }>(
+      'favorites',
+    );
+    return populatedUser.favorites;
+  }
+
+  async reorderFavorite(
+    userId: string,
+    activityId: string,
+    newIndex: number,
+  ): Promise<Activity[]> {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const idx = user.favorites.findIndex((fav) => fav.equals(activityId));
+    if (idx === -1) throw new NotFoundException('Activity not in favorites');
+
+    const [removed] = user.favorites.splice(idx, 1);
+    user.favorites.splice(newIndex, 0, removed);
+
+    await user.save();
+    await user.populate('favorites');
+    const populatedUser = await user.populate<{ favorites: Activity[] }>(
+      'favorites',
+    );
+    return populatedUser.favorites;
+  }
+
+  async getFavorites(userId: string): Promise<Activity[]> {
+    const user = await this.userModel.findById(userId).populate('favorites');
+    if (!user) throw new NotFoundException('User not found');
+
+    const populatedUser = await user.populate<{ favorites: Activity[] }>(
+      'favorites',
+    );
+    return populatedUser.favorites;
   }
 }

@@ -1,29 +1,29 @@
+import { UseGuards } from '@nestjs/common';
 import {
-  Resolver,
-  Query,
-  Mutation,
   Args,
   Context,
-  Int,
-  Parent,
-  ResolveField,
   ID,
+  Int,
+  Mutation,
+  Parent,
+  Query,
+  ResolveField,
+  Resolver,
 } from '@nestjs/graphql';
-import { UseGuards } from '@nestjs/common';
-import { ActivityService } from './activity.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { UserService } from 'src/user/user.service';
 import { Activity } from './activity.schema';
+import { ActivityService } from './activity.service';
 
-import { CreateActivityInput } from './activity.inputs.dto';
-import { User } from 'src/user/user.schema';
 import { ContextWithJWTPayload } from 'src/auth/types/context';
+import { User } from 'src/user/user.schema';
+import { CreateActivityInput } from './activity.inputs.dto';
 
 @Resolver(() => Activity)
 export class ActivityResolver {
   constructor(
     private readonly activityService: ActivityService,
-    private readonly userServices: UserService,
+    private readonly userService: UserService,
   ) {}
 
   @ResolveField(() => ID)
@@ -82,5 +82,32 @@ export class ActivityResolver {
     @Args('createActivityInput') createActivity: CreateActivityInput,
   ): Promise<Activity> {
     return this.activityService.create(context.jwtPayload.id, createActivity);
+  }
+
+  @Mutation(() => [Activity])
+  async addFavorite(
+    @Args('userId') userId: string,
+    @Args('activityId') activityId: string,
+  ): Promise<Activity[]> {
+    return this.userService.addFavorite(userId, activityId);
+  }
+
+  @Mutation(() => [Activity])
+  @UseGuards(AuthGuard)
+  async reorderFavorite(
+    @Context() context: ContextWithJWTPayload,
+    @Args('activityId') activityId: string,
+    @Args('newIndex') newIndex: number,
+  ): Promise<Activity[]> {
+    return this.userService.reorderFavorite(
+      context.jwtPayload.id,
+      activityId,
+      newIndex,
+    );
+  }
+
+  @Query(() => [Activity])
+  async getFavorites(@Args('userId') userId: string): Promise<Activity[]> {
+    return this.userService.getFavorites(userId);
   }
 }
