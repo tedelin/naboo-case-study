@@ -9,6 +9,7 @@ import {
   Badge,
   Button,
   Card,
+  Flex,
   Grid,
   Group,
   Image,
@@ -67,8 +68,8 @@ export function Activity({ activity }: ActivityProps) {
           />
         </Card.Section>
 
-        <Group position="apart" mt="md" mb="xs">
-          <Text weight={500} className={classes.ellipsis}>
+        <Flex justify="space-between" align="center" mt="md" mb="xs">
+          <Text weight={500} className={classes.ellipsis} style={{ flex: 1 }}>
             {activity.name}
           </Text>
           {user && (
@@ -84,7 +85,7 @@ export function Activity({ activity }: ActivityProps) {
               )}
             </ActionIcon>
           )}
-        </Group>
+        </Flex>
 
         <Group mt="md" mb="xs">
           <Badge color="pink" variant="light">
