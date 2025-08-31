@@ -44,12 +44,14 @@ const SortableItem = ({ activity }: { activity: FavoriteActivity }) => {
 
   return (
     <Paper ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {activity.name}
-      <Link href={`/activities/${activity.id}`}>
-        <Button variant="light" color="blue" fullWidth mt="md" radius="md">
-          Voir
-        </Button>
-      </Link>
+      <Flex justify="space-between" align="center">
+        <Text>{activity.name}</Text>
+        <Link href={`/activities/${activity.id}`}>
+          <Button variant="light" color="blue" radius="md">
+            Voir
+          </Button>
+        </Link>
+      </Flex>
     </Paper>
   );
 };
