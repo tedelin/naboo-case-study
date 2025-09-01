@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const GetFavoriteActivities = gql`
-  query GetFavoriteActivities($userId: String!) {
-    getFavorites(userId: $userId) {
+  query GetFavoriteActivities {
+    getFavorites {
       id
       name
       description

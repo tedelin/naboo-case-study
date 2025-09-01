@@ -25,11 +25,12 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Mutation {
-  addFavorite(activityId: String!, userId: String!): [Activity!]!
+  addFavorite(activityId: String!): [Activity!]!
   createActivity(createActivityInput: CreateActivityInput!): Activity!
   login(signInInput: SignInInput!): SignInDto!
   logout: Boolean!
   register(signUpInput: SignUpInput!): User!
+  removeFavorite(activityId: String!): [Activity!]!
   reorderFavorite(activityId: String!, newIndex: Int!): [Activity!]!
 }
 
@@ -39,7 +40,7 @@ type Query {
   getActivitiesByUser: [Activity!]!
   getActivity(id: String!): Activity!
   getCities: [String!]!
-  getFavorites(userId: String!): [Activity!]!
+  getFavorites: [Activity!]!
   getLatestActivities: [Activity!]!
   getMe: User!
 }

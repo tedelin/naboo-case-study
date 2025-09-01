@@ -94,6 +94,25 @@ export class UserService {
     return populatedUser.favorites;
   }
 
+  async removeFavorite(
+    userId: string,
+    activityId: string,
+  ): Promise<Activity[]> {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
+
+    const activityObjId = new Types.ObjectId(activityId);
+
+    user.favorites = user.favorites.filter((fav) => !fav.equals(activityObjId));
+
+    await user.save();
+
+    const populatedUser = await user.populate<{ favorites: Activity[] }>(
+      'favorites',
+    );
+    return populatedUser.favorites;
+  }
+
   async reorderFavorite(
     userId: string,
     activityId: string,

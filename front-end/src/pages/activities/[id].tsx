@@ -5,6 +5,7 @@ import {
   GetActivityQueryVariables,
 } from "@/graphql/generated/types";
 import AddFavoriteActivity from "@/graphql/mutations/activity/addFavoriteActivity";
+import RemoveFavoriteActivity from "@/graphql/mutations/activity/removeFavoriteActivity";
 import GetActivity from "@/graphql/queries/activity/getActivity";
 import GetFavoriteActivities from "@/graphql/queries/activity/getFavoriteActivities";
 import { useAuth } from "@/hooks";
@@ -63,18 +64,31 @@ export default function ActivityDetails({ activity }: ActivityDetailsProps) {
     }
   }, [favData, activity.id]);
 
-  const [addFavorite, { loading }] = useMutation(AddFavoriteActivity, {
-    onCompleted: () => {
-      refetchFavorites();
-    },
+  const [addFavorite, { loading: adding }] = useMutation(AddFavoriteActivity, {
+    onCompleted: () => refetchFavorites(),
     onError: (err) => console.error("Error adding favorite:", err),
   });
 
-  const handleAddFavorite = () => {
+  const [removeFavorite, { loading: removing }] = useMutation(
+    RemoveFavoriteActivity,
+    {
+      onCompleted: () => refetchFavorites(),
+      onError: (err) => console.error("Error removing favorite:", err),
+    }
+  );
+
+  const handleToggleFavorite = () => {
     if (!user) return;
-    addFavorite({
-      variables: { userId: user.id, activityId: String(activity.id) },
-    });
+
+    if (isFavorite) {
+      removeFavorite({
+        variables: { activityId: String(activity.id) },
+      });
+    } else {
+      addFavorite({
+        variables: { activityId: String(activity.id) },
+      });
+    }
   };
 
   return (
@@ -105,8 +119,8 @@ export default function ActivityDetails({ activity }: ActivityDetailsProps) {
               {user && (
                 <ActionIcon
                   color={isFavorite ? "red" : "gray"}
-                  onClick={handleAddFavorite}
-                  loading={loading}
+                  onClick={handleToggleFavorite}
+                  loading={adding || removing}
                 >
                   {isFavorite ? (
                     <IconHeartFilled size={20} />

@@ -1,8 +1,8 @@
 import gql from "graphql-tag";
 
 const AddFavoriteActivity = gql`
-  mutation AddFavoriteActivity($userId: String!, $activityId: String!) {
-    addFavorite(userId: $userId, activityId: $activityId) {
+  mutation AddFavoriteActivity($activityId: String!) {
+    addFavorite(activityId: $activityId) {
       id
       name
       description

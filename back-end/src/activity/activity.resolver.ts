@@ -85,11 +85,21 @@ export class ActivityResolver {
   }
 
   @Mutation(() => [Activity])
+  @UseGuards(AuthGuard)
   async addFavorite(
-    @Args('userId') userId: string,
+    @Context() context: ContextWithJWTPayload,
     @Args('activityId') activityId: string,
   ): Promise<Activity[]> {
-    return this.userService.addFavorite(userId, activityId);
+    return this.userService.addFavorite(context.jwtPayload.id, activityId);
+  }
+
+  @Mutation(() => [Activity])
+  @UseGuards(AuthGuard)
+  async removeFavorite(
+    @Context() context: ContextWithJWTPayload,
+    @Args('activityId') activityId: string,
+  ): Promise<Activity[]> {
+    return this.userService.removeFavorite(context.jwtPayload.id, activityId);
   }
 
   @Mutation(() => [Activity])
@@ -107,7 +117,10 @@ export class ActivityResolver {
   }
 
   @Query(() => [Activity])
-  async getFavorites(@Args('userId') userId: string): Promise<Activity[]> {
-    return this.userService.getFavorites(userId);
+  @UseGuards(AuthGuard)
+  async getFavorites(
+    @Context() context: ContextWithJWTPayload,
+  ): Promise<Activity[]> {
+    return this.userService.getFavorites(context.jwtPayload.id);
   }
 }
