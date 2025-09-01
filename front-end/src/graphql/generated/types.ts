@@ -201,6 +201,11 @@ export type GetActivityQueryVariables = Exact<{
 
 export type GetActivityQuery = { __typename?: 'Query', getActivity: { __typename?: 'Activity', id: string, city: string, description: string, name: string, price: number, createdAt?: any | null, owner: { __typename?: 'User', firstName: string, lastName: string } } };
 
+export type GetFavoriteActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetFavoriteActivitiesQuery = { __typename?: 'Query', getFavorites: Array<{ __typename?: 'Activity', id: string, name: string, description: string, city: string, price: number }> };
+
 export type GetLatestActivitiesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
