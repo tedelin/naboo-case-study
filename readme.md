@@ -24,12 +24,15 @@ frontend
 Database
 
 ```bash
+cp .env.example .env
 docker compose up
 ```
 
 backend
 
 ```bash
+cp .env.dist .env
+
 npm i
 
 npm run start:dev
